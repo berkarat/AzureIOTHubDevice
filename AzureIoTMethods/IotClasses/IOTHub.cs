@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Devices.Client;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AzureIoTMethods.IotClasses
 {
-   public class IOTHub
+    public class IOTHub
     {
         private readonly static string s_connectionString = "HostName=Berksiothub.azure-devices.net;DeviceId=berkdevice1;SharedAccessKey=ZLR28pssmORj1eE0ERWjVTr9lDeV3VUxSkEw1eFjxfE=";
         private static DeviceClient s_deviceClient;
@@ -29,7 +30,7 @@ namespace AzureIoTMethods.IotClasses
             // Check the payload is a single integer value
             if (!string.IsNullOrEmpty(data))
             {
-                
+
                 string result = "{\"LocalIPAddress\":\"" + GetLocalIPAddress() + "\"}";
                 return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
 
@@ -53,6 +54,29 @@ namespace AzureIoTMethods.IotClasses
                 }
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+
+
+        public  string SendMessage(string messages)
+        {
+            s_deviceClient = DeviceClient.CreateFromConnectionString(s_connectionString, TransportType.Mqtt);
+
+            // Create JSON message
+            var Message = new
+            {
+                msg = messages
+            };
+            var messageString = JsonConvert.SerializeObject(Message);
+            var message = new Message(Encoding.ASCII.GetBytes(messageString));
+
+
+            // Send the telemetry message
+              s_deviceClient.SendEventAsync(message);
+              Task.Delay(1000);
+ 
+            return "Message Sent" + DateTime.Now + messageString;
+
         }
     }
 }

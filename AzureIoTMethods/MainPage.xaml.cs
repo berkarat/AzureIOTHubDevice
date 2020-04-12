@@ -43,5 +43,16 @@ namespace AzureIoTMethods
 
         }
 
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            iot = new IOTHub();
+            string val = iot.SendMessage(textBox.Text);
+
+
+            textBox.Text = val;
+
+
+
+        }
     }
 }

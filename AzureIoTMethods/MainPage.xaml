@@ -9,7 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button x:Name="button" Content="Listen Cloud Message" Margin="223,257,0,0" VerticalAlignment="Top" Click="button_Click"/>
+        <Button x:Name="button" Content="Listen Cloud Message" Margin="411,254,0,0" VerticalAlignment="Top" Click="button_Click"/>
+        <Button x:Name="button1" Content="Send Message" Margin="387,371,0,0" VerticalAlignment="Top" Click="Button1_Click" Width="203"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="226,306,0,0" Text="...." VerticalAlignment="Top" Width="524" AutomationProperties.AccessibilityView="Control"/>
 
     </Grid>
 </Page>
